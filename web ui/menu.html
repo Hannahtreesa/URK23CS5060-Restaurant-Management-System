@@ -1,0 +1,38 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Menu</title>
+  <link rel="stylesheet" href="style/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Menu</h2>
+    <ul id="menu-list">
+      <!-- Menu items will be loaded dynamically -->
+    </ul>
+    <button onclick="loadMenu()">Refresh Menu</button>
+  </div>
+  <script>
+    async function loadMenu() {
+      try {
+        const response = await fetch("http://localhost:8080/api/menu");
+        const items = await response.json();
+        const list = document.getElementById("menu-list");
+        list.innerHTML = "";
+        items.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = `${item.name} - ₹${item.price}`;
+          list.appendChild(li);
+        });
+      } catch (error) {
+        alert("Failed to load menu.");
+      }
+    }
+
+    window.onload = loadMenu;
+  </script>
+</body>
+</html>

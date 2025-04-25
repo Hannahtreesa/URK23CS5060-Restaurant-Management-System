@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Place Order</title>
+  <link rel="stylesheet" href="style/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Place Order</h2>
+    <form id="order-form">
+      <label for="customer-id">Customer ID:</label>
+      <input id="customer-id" type="number" placeholder="Enter Customer ID" required>
+
+      <label for="menu-item-id">Menu Item ID:</label>
+      <input id="menu-item-id" type="number" placeholder="Enter Menu Item ID" required>
+
+      <button type="submit">Place Order</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById("order-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const customerId = document.getElementById("customer-id").value;
+      const itemId = document.getElementById("menu-item-id").value;
+      try {
+        const response = await fetch("http://localhost:8080/api/order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ customerId, itemId })
+        });
+        if (response.ok) {
+          alert("Order placed successfully!");
+        } else {
+          alert("Failed to place order.");
+        }
+      } catch (error) {
+        alert("Error connecting to backend.");
+      }
+    });
+  </script>
+</body>
+</html>
